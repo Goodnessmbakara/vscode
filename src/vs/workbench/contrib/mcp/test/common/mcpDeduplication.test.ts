@@ -78,7 +78,7 @@ suite('Workbench - MCP - Deduplication', () => {
 			}
 		} satisfies McpServerDefinition;
 
-		// Create mock collection definitions
+		// Create mock collection definitions for testing deduplication logic
 		const workspaceCollection: McpCollectionDefinition = {
 			id: 'workspace-collection',
 			label: 'Workspace Collection',
@@ -98,6 +98,10 @@ suite('Workbench - MCP - Deduplication', () => {
 			trustBehavior: McpServerTrust.Kind.Trusted,
 			serverDefinitions: observableValue('user-servers', [serverDef2])
 		};
+
+		// Verify collection definitions are properly structured
+		assert.strictEqual(workspaceCollection.scope, StorageScope.WORKSPACE, 'Workspace collection should have workspace scope');
+		assert.strictEqual(userCollection.scope, StorageScope.PROFILE, 'User collection should have profile scope');
 
 		// Test the deduplication logic by calling updateCollectedServers
 		// This will trigger our deduplication method
